@@ -1,0 +1,13 @@
+# IntelliJ
+.idea/
+out/
+
+# Gradle
+build/
+.gradle/
+
+# Bloop
+.bloop/
+
+# Artifacts
+*.jar
