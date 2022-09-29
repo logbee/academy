@@ -1,13 +1,16 @@
-import scala.io.StdIn.readLine
 
 @main
 def main(): Unit = {
 
-  println()
+  println() // simple println function defined in `scala.predef`
 
-  val name = readLine("Enter your name: ")
+  Console.out.print("Enter your name: ") // Scala Console API
+  val name = Console.in.readLine()
 
-  println(s"Hello, $name")
+  Console.out.println(s"Hello, $name")
 
-  readLine("\n<<press enter>>")
+  println("\n<<press enter>>")
+  Console.in.readLine()
+
+  Console.err.println("Bye Bye") // Print to stdErr
 }
