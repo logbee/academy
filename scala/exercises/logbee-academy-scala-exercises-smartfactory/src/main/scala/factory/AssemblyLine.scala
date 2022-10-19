@@ -1,0 +1,5 @@
+package factory
+
+class AssemblyLine {
+
+}

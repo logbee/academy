@@ -1,0 +1,5 @@
+= Scala: Smart Factory =
+
+== Prolog ==
+
+After a cyberattack many parts of our factory are damaged.
