@@ -1,1 +1,1 @@
-= Scala: Domain modeling I = 
+= Scala: Domain modeling I =
