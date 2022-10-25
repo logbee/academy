@@ -1,9 +1,9 @@
 import factory.FireAlarmSystem.Detector
 import factory.Factory
-import factory.AssemblyLine.MillingMachine
-import factory.AssemblyLine.MillingMachine.Command
-import factory.AssemblyLine.MillingMachine.Cutters.{HighSpeedCutter, LowSpeedCutter, RoundCutter}
-import factory.AssemblyLine.MillingMachine.Power.{PowerOff, PowerOn}
+import inventory.MillingMachine
+import inventory.MillingMachine.Command
+import inventory.MillingMachine.Cutters.{HighSpeedCutter, LowSpeedCutter, RoundCutter}
+import inventory.MillingMachine.Power.{PowerOff, PowerOn}
 import factory.parts.StealBlock
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
@@ -42,7 +42,6 @@ class ControlRoom extends AnyFreeSpec with Matchers {
 
             val engineBlock = assemblyLine.engineBlockMillingMachine.process(stealBlock)
 
-
             assert(assemblyLine.engineBlockMillingMachine.commands(0) == MillingMachine.Command.SetCutter(HighSpeedCutter), "command [1] should be SetCutter")
             assert(assemblyLine.engineBlockMillingMachine.commands(1) == MillingMachine.Command.EnableCooling , "command [2] should be EnableCooling")
             assert(assemblyLine.engineBlockMillingMachine.commands(2) == MillingMachine.Command.SetPower(PowerOn), "command [3] should be SetPower")
@@ -65,22 +64,22 @@ class ControlRoom extends AnyFreeSpec with Matchers {
             val assemblyLine = factory.assemblyLine
             val stealBlock = StealBlock()
 
-
             val engineCylinder = assemblyLine.engineCylinderMillingMachine.process(stealBlock)
-                assert(assemblyLine.engineCylinderMillingMachine.commands(0) == MillingMachine.Command.SetCutter(LowSpeedCutter), "command [1] should be SetCutter")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(1) == MillingMachine.Command.EnableCooling, "command [2] should be EnableCooling")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(2) == MillingMachine.Command.SetPower(PowerOn), "command [3] should be SetPower")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(3) == MillingMachine.Command.Milling, "command [4] should be Milling")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(4) == MillingMachine.Command.SetPower(PowerOff), "command [5] should be SetPower")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(5) == MillingMachine.Command.DisableCooling, "command [6] should be DisableCooling")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(6) == MillingMachine.Command.SetCutter(RoundCutter), "command [7] should be SetCutter")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(7) == MillingMachine.Command.EnableCooling, "command [8] should be EnableCooling")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(8) == MillingMachine.Command.SetPower(PowerOn), "command [9] should be SetPower")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(9) == MillingMachine.Command.Milling, "command [10] should be Milling")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(10) == MillingMachine.Command.SetPower(PowerOff), "command [11] should be SetPower")
-                assert(assemblyLine.engineCylinderMillingMachine.commands(11) == MillingMachine.Command.DisableCooling, "command [12] should be DisableCooling")
 
-                assert(engineCylinder != null)
-            }
+            assert(assemblyLine.engineCylinderMillingMachine.commands(0) == MillingMachine.Command.SetCutter(LowSpeedCutter), "command [1] should be SetCutter")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(1) == MillingMachine.Command.EnableCooling, "command [2] should be EnableCooling")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(2) == MillingMachine.Command.SetPower(PowerOn), "command [3] should be SetPower")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(3) == MillingMachine.Command.Milling, "command [4] should be Milling")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(4) == MillingMachine.Command.SetPower(PowerOff), "command [5] should be SetPower")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(5) == MillingMachine.Command.DisableCooling, "command [6] should be DisableCooling")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(6) == MillingMachine.Command.SetCutter(RoundCutter), "command [7] should be SetCutter")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(7) == MillingMachine.Command.EnableCooling, "command [8] should be EnableCooling")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(8) == MillingMachine.Command.SetPower(PowerOn), "command [9] should be SetPower")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(9) == MillingMachine.Command.Milling, "command [10] should be Milling")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(10) == MillingMachine.Command.SetPower(PowerOff), "command [11] should be SetPower")
+            assert(assemblyLine.engineCylinderMillingMachine.commands(11) == MillingMachine.Command.DisableCooling, "command [12] should be DisableCooling")
+
+            assert(engineCylinder != null)
         }
+    }
 }
