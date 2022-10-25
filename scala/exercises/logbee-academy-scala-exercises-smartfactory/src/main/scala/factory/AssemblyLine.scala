@@ -2,74 +2,61 @@ package factory
 
 import factory.AssemblyLine.EngineBlockMillingMachine
 import factory.AssemblyLine.EngineCylinderMillingMachine
-import inventory.{MillingMachine, Station}
+import inventory.{MillingMachine, Protocol, Station}
 import inventory.MillingMachine.Command
 import inventory.MillingMachine.Command.SetPower
-import inventory.MillingMachine.Cutters.{HighSpeedCutter, LowSpeedCutter}
+import inventory.MillingMachine.Cutter.HighSpeedCutter
 import inventory.MillingMachine.Power.{PowerOff, PowerOn}
-import factory.parts.{EngineBlock, EngineCylinder, StealBlock}
-
+import factory.parts.{EngineBlock, EngineCylinder, Material, StealBlock}
 
 package parts {
-  case class StealBlock()
-  case class EngineBlock()
-  case class EngineCylinder()
+
+  trait Material
+
+  case class StealBlock() extends Material
+
+  case class EngineBlock() extends Material
+
+  case class EngineCylinder() extends Material
+
   case class Engine(block: EngineBlock, cylinders: List[EngineCylinder])
 
 }
 
 class AssemblyLine {
-  // oh no some Assembly Line stations are damaged
-  // make sure to fix all for start producing
-  val engineBlockMillingMachine: EngineBlockMillingMachine = EngineBlockMillingMachine()
-  val engineCylinderMillingMachine: EngineCylinderMillingMachine = EngineCylinderMillingMachine()
-
+  val engineBlockMillingMachine: EngineBlockMillingMachine = EngineBlockMillingMachine(Protocol.EngineBlockProtocol)
+  val engineCylinderMillingMachine: EngineCylinderMillingMachine = EngineCylinderMillingMachine(Protocol.EngineBlockProtocol) // TODO: Fix protocol
 }
 
 object AssemblyLine {
 
-  class EngineBlockMillingMachine() extends MillingMachine with Station[StealBlock, EngineBlock] {
+  class EngineBlockMillingMachine(protocol: Protocol) extends MillingMachine[EngineBlock](protocol) with Station[StealBlock, EngineBlock] {
     override def process(in: StealBlock): EngineBlock = {
       // TODO follow all rules and try to complete the Milling Process for our EngineBlock
-      // -> first set Cutter, then enable Cooling and start Machine
-      // -> Machine have to do the work (Milling) and set to power off (don´t miss to disable cooling)
-      // -> We first need to Cut with the <HighSpeedCutter> and then with the <LowerSpeedCutter>
       setCutter(HighSpeedCutter)
       enableCooling()
       setPower(PowerOn)
-      milling()
+      val result = milling()
       setPower(PowerOff)
       disableCooling()
-      setCutter(LowSpeedCutter)
+
+      result
+    }
+  }
+
+  class EngineCylinderMillingMachine(protocol: Protocol) extends MillingMachine[EngineCylinder](protocol) with Station[StealBlock, EngineCylinder] {
+    override def process(in: StealBlock): EngineCylinder = {
+      // TODO define the Milling Process for our EngineCylinder
+      // setCutter(HighSpeedCutter)
       enableCooling()
       setPower(PowerOn)
-      milling()
+      val result = milling()
       setPower(PowerOff)
-      disableCooling()
+      //disableCooling()
 
-      val engineBlock = EngineBlock()
-      engineBlock
+      result
     }
   }
 
-  // TODO we also need to define a new class <EngineCylinderMillingMachine>
-  //  and define the Milling Process for our EngineCylinder
-  // Here we can put a StealBlock in and get EngineCylinder back
-  // The working steps are Set LowSpeedCutter and then Set RoundCutter
-  // Make sure to follow the same rules as in your task before
-  class EngineCylinderMillingMachine() extends MillingMachine with Station[StealBlock, EngineCylinder] {
-    override def process(in: StealBlock): EngineCylinder = {
-      val engineCylinder = EngineCylinder()
-      engineCylinder
-    }
-  }
-
-  class Printing3D {
-
-  }
-
-  class Assembly {
-
-  }
 }
 
