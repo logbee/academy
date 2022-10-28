@@ -1,5 +1,0 @@
-Anna Williamson,32,Software Architect,3
-Brian Arroyo,27,Software Engineer,2
-Christopher James,25,Account Manager,1
-Andrew Reyes,45,Chief Executive Officer,4
-Robert Perez,37,Chief Sales Officer,3
