@@ -1,2 +1,3 @@
 = Logbee Academy =
 
+xref:coding-preflight-check.adoc[Coding Preflight Check]

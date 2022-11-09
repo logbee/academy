@@ -1,0 +1,218 @@
+= Coding Preflight Check =
+
+[IMPORTANT]
+.Placeholders
+====
+The preflight checks below contain placeholders which have to be replaced by suitable values
+according to your setup and needs. The placeholders are recognizable by angle brackets.
+
+.Examples:
+* <project-name>
+* <package>
+* <username>
+* ...
+====
+
+== Scala ==
+
+[cols="<2,<10,^1"]
+|===
+| Check | Help | Status
+
+3+h| Directory Structure
+
+| project root
+a| `mkdir /home/<username>/Projects/<project-name>`
+| +++<input type="checkbox">+++
+
+| main source-set
+a| Within project directory: +
+   `mkdir -p src/main/scala/<package>`
+| +++<input type="checkbox">+++
+
+| test source-set
+a| Within project directory: +
+   `mkdir -p src/test/scala/<package>`
+| +++<input type="checkbox">+++
+
+3+h| Readme
+| README.adoc
+a| Within project directory: +
+`echo "= <project-name> =" > README.adoc`
+| +++<input type="checkbox">+++
+
+3+h| Gradle
+| build.gradle
+a| Create a minimal `build.gradle` file in the root of your project: +
+[source,groovy]
+.build.gradle
+----
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "ch.epfl.scala:gradle-bloop_2.13:1.5.3-28-373a64c9"
+    }
+}
+
+apply plugin: "scala"
+apply plugin: "bloop"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.scala-lang:scala3-library_3:3.2.0"
+    testImplementation "org.scalatest:scalatest_3:3.2.14"
+    testImplementation "org.scalatestplus:junit-4-13_3:3.2.12.0"
+}
+----
+| +++<input type="checkbox">+++
+
+| Bloop
+a| Generate Bloop configuration: +
+`gradle bloopInstall`
+| +++<input type="checkbox">+++
+
+| Wrapper
+a| Initialize the gradle wrapper in the root of your project: +
+`gradle wrapper`
+| +++<input type="checkbox">+++
+
+3+h| IntelliJ
+
+| Open / Import
+a| Open the project as BSP project in IntelliJ.
+| +++<input type="checkbox">+++
+
+3+h| Hello World
+
+| Main.scala
+a| Create a `Main.scala` source file: +
+[source,scala]
+.src/main/scala/<package>/Main.scala
+----
+package <package-name>
+
+@main def main(): Unit = {
+  println("Hello World")
+}
+----
+| +++<input type="checkbox">+++
+
+| HelloSpec.scala
+a| Create a `HelloSpec.scala` source file: +
+[source,scala]
+.src/test/scala/<package>/HelloSpec.scala
+----
+package <package-name>
+
+import org.junit.runner.RunWith
+import org.scalatestplus.junit.JUnitRunner
+import org.scalatest.freespec.AnyFreeSpec
+
+@RunWith(classOf[JUnitRunner])
+class HelloSpec extends AnyFreeSpec {
+  "Say" - {
+    "hello spec" in {
+      println("Hello Spec")
+    }
+  }
+}
+----
+| +++<input type="checkbox">+++
+
+| Run Main
+a| `Main` can be executed within IntelliJ.
+| +++<input type="checkbox">+++
+
+| Run Spec
+a| `HelloSpec` can be executed within IntelliJ.
+| +++<input type="checkbox">+++
+
+3+h| CI/CD
+
+| Workflows directory
+a| Within project directory: +
+`mkdir -p .github/workflows/`
+| +++<input type="checkbox">+++
+
+| build.yaml
+a| Configure workflow: +
+[source,yaml]
+..github/workflows/build.yaml
+----
+name: <project-name>
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: build
+----
+| +++<input type="checkbox">+++
+
+3+h| Version Control (Git)
+
+| Local repository
+| Within projects root directory: +
+  `git init`
+| +++<input type="checkbox">+++
+
+| Author
+| Configure the appropriate author for commits: +
+`git config --local user.name "<author>"`
+| +++<input type="checkbox">+++
+
+| eMail
+| Configure the appropriate email for commits: +
+`git config --local user.email "<email>"`
+| +++<input type="checkbox">+++
+
+| .gitignore
+a| Create a `.gitignore` file and add appropriate files and folders: +
+[source]
+..gitignore
+----
+.gradle/
+.bloop/
+.idea/
+out/
+build/
+----
+| +++<input type="checkbox">+++
+
+| Remote repository
+| Create a repository at your git server (e.g. http://github.com).
+| +++<input type="checkbox">+++
+
+| Origin
+| configure the remote repository as origin: +
+  `git remote add origin <repository-url>`
+| +++<input type="checkbox">+++
+
+| Initial Commit
+a| Create an initial commit: +
+  `git add . && git commit --message="Initial commit."` +
+| +++<input type="checkbox">+++
+
+| Initial Push
+a| Push initial commit to remote: +
+   `git push --set-upstream origin master`
+| +++<input type="checkbox">+++
+
+|===
+
