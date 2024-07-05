@@ -1,0 +1,6 @@
+[package]
+name = "logbee-academy-rust-hello-world"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]

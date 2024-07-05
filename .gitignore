@@ -11,3 +11,6 @@ build/
 
 # Artifacts
 *.jar
+
+# Cargo
+/rust/*/target
